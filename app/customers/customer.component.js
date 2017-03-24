@@ -23,8 +23,13 @@ var CustomerComponent = (function () {
     function CustomerComponent(fb) {
         this.fb = fb;
         this.customer = new customer_1.Customer();
+        this.ValidationMessages = {
+            required: 'email is required Please enter email address',
+            pattern: 'Please enter a valid email address'
+        };
     }
     CustomerComponent.prototype.ngOnInit = function () {
+        var _this = this;
         // using FormBuilder to set up FormGroup with defalut value and build in validations
         this.customerForm = this.fb.group({
             firstName: ['', forms_1.Validators.required, forms_1.Validators.minLength(3)],
@@ -49,6 +54,19 @@ var CustomerComponent = (function () {
         //    email: new FormControl(),
         //    sendCatalog: new FormControl(true)
         //});
+        this.customerForm.get('notification').valueChanges.subscribe(function (value) { return _this.setNotification(value); });
+        // put validation in the component
+        var emailControl = this.customerForm.get('email');
+        emailControl.valueChanges.subscribe(function (value) { return _this.setMessage(emailControl); });
+    };
+    CustomerComponent.prototype.setMessage = function (c) {
+        var _this = this;
+        this.emailMessage = '';
+        if ((c.touched || c.dirty) && c.errors) {
+            this.emailMessage = Object.keys(c.errors).map(function (key) {
+                return _this.validationMessages[key];
+            }).join(' ');
+        }
     };
     CustomerComponent.prototype.save = function () {
         console.log(this.customerForm);

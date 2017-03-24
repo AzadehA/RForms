@@ -6,14 +6,14 @@ import { AppComponent } from './app.component';
 import { CustomerComponent } from './customers/customer.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    AppComponent,
-    CustomerComponent
-  ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        ReactiveFormsModule
+    ],
+    declarations: [
+        AppComponent,
+        CustomerComponent
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

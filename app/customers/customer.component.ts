@@ -10,6 +10,8 @@ function ratingRange(c: AbstractControl): { [key: string]: boolean } | null
     return null;
 };
 
+
+
 @Component({
     selector: 'my-signup',
     templateUrl: './app/customers/customer.component.html'
@@ -17,6 +19,14 @@ function ratingRange(c: AbstractControl): { [key: string]: boolean } | null
 export class CustomerComponent implements OnInit  {
     customer: Customer= new Customer();
     customerForm: FormGroup;
+
+    // bringing validation rule to the component 
+    // first we define the set of
+    emailMessage: string;
+    private ValidationMessages = {
+        required: 'email is required Please enter email address',
+        pattern: 'Please enter a valid email address'
+    };
 
     constructor(private fb: FormBuilder) { }
 
@@ -48,6 +58,20 @@ export class CustomerComponent implements OnInit  {
         //    email: new FormControl(),
         //    sendCatalog: new FormControl(true)
         //});
+
+        this.customerForm.get('notification').valueChanges.subscribe(value => this.setNotification(value));
+
+     // put validation in the component
+        const emailControl = this.customerForm.get('email');
+        emailControl.valueChanges.subscribe(value => this.setMessage(emailControl));
+
+    }
+
+    setMessage(c: AbstractControl): void {
+        this.emailMessage = '';
+        if ((c.touched || c.dirty) && c.errors) {
+         //   this.emailMessage = Object.keys(c.errors).map(key => this.validationMessages[key]).join(' ');
+        }
     }
     save() {
         console.log(this.customerForm);
